@@ -113,17 +113,19 @@ function generatePCDOutput(req, res, next) {
                             obj = {x: v};
                             break;
                         case 1:
-                            obj.y = v;
+                            obj.z = -v;
                             break;
                         case 2:
-                            obj.z = v;
+                            obj.y = v;
                             out += obj.x + " " + obj.y + " " + obj.z + " ";
-                            out += labels[position] + " ";
+                            // add reflectance here
                             const assignedObject = objectByPointIndex.get(position);
                             if (assignedObject != undefined)
                                 out += assignedObject;
                             else
-                                out += "-1";
+                                out += "-1" + " ";
+                            // add class label
+                            out += labels[position];
                             out += "\n";
                             res.write(out);
                             out = "";

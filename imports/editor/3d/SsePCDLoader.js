@@ -123,6 +123,8 @@ export default class SsePCDLoader {
                         meta.viewpoint.qy, meta.viewpoint.qz, meta.viewpoint.qw);
 
                     var offset = PCDheader.offset;
+                    console.log("offset")
+                    console.log(offset)
 
                     var pcdData = textData.substr(PCDheader.headerLen);
                     var lines = pcdData.split('\n');
@@ -141,20 +143,25 @@ export default class SsePCDLoader {
                         item.x = pt.x;
                         position.push(pt.x);
 
-                        item.y = pt.y;
+                        // SWAPPED Y AND Z FOR PERSPECTIVE
+                        // inverted height (pcd z, app y) for right-handed system (forward,left,up). axes order in the app is x,z,-y
+                        item.y = -pt.z;
+                        position.push(-pt.z);
+                        item.z = pt.y;
                         position.push(pt.y);
-                        item.z = pt.z;
-                        position.push(pt.z);
+
 
 
                         const classIndex = parseInt(line[offset.label]) || 0;
                         item.classIndex = classIndex;
                         label.push(classIndex);
 
+                        const reflectance = parseInt(line[offset.intensity]) || 0;
+
                         // Initialize colors
-                        color.push(0);
-                        color.push(0);
-                        color.push(0);
+                        color.push(reflectance);
+                        color.push(reflectance);
+                        color.push(reflectance);
 
                     }
                 }

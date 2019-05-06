@@ -1955,6 +1955,8 @@ export default class SseEditor3d extends React.Component {
         const loader = new THREE.PCDLoader();
         return new Promise((res) => {
             loader.load(fileUrl, (arg) => {
+                console.log("pcdloader result:")
+                console.log(arg)
                 $("#waiting").addClass("display-none");
                 this.display(arg.object, arg.position, arg.label);
                 Object.assign(this.meta, {header: arg.header});
