@@ -20,7 +20,7 @@ class SseNavigatorApp extends React.Component {
     constructor() {
         super();
         SseMsg.register(this);
-        this.increment = 20;
+        this.increment = 30;
         this.state = {pageLength: this.increment, selection: new Set()};
     }
 
@@ -135,4 +135,3 @@ export default withTracker((props) => {
     annotated.forEach(o => urlMap.set(decodeURIComponent(o.url), true));
     return {urlMap};
 })(SseNavigatorApp);
-

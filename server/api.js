@@ -64,7 +64,7 @@ function generatePCDOutput(req, res, next) {
         const head = pcdContent.header;
 
         let out = "VERSION .7\n";
-        out += "FIELDS x y z label object\n";
+        out += "FIELDS x y z intensity label\n";
         out += "SIZE 4 4 4 4 4\n";
         out += "TYPE F F F I I\n";
         out += "COUNT 1 1 1 1 1\n";
@@ -119,11 +119,7 @@ function generatePCDOutput(req, res, next) {
                             obj.y = v;
                             out += obj.x + " " + obj.y + " " + obj.z + " ";
                             // add reflectance here
-                            const assignedObject = objectByPointIndex.get(position);
-                            if (assignedObject != undefined)
-                                out += assignedObject;
-                            else
-                                out += "-1" + " ";
+                            out += pcdContent.reflectance[position] + " ";
                             // add class label
                             out += labels[position];
                             out += "\n";

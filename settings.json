@@ -7,38 +7,21 @@
     {
       "name": "FS", "objects": [
       {"label": "VOID", "color": "#CFCFCF"},
-      {"label": "Yellow Cone", "color": "#804080", "icon": "Road"},
-      {"label": "Blue Cone", "color": "#F423E8", "icon": "NaturePeople"},
-      {"label": "Orange Cone", "color": "#FAAAA0", "icon": "Parking"}
+      {"label": "Yellow Cone", "color": "#F0FF00", "icon": "Triangle"},
+      {"label": "Blue Cone", "color": "#2A00FF", "icon": "Triangle"},
+      {"label": "Orange Cone", "color": "#FF7800", "icon": "Triangle"}
     ]
-    },
+    },	
     {
-      "name": "FS",
-      "objects": [
-        {"label": "VOID", "color": "#CFCFCF"},
-        {
-          "label": "Void",
-          "color": "#FF8800",
-          "icon": "BorderNoneVariant"
-        }, {
-          "label": "Yellow Cone",
-          "color": "#799024",
-          "icon": "Road"
-        },
-        {
-          "label": "Blue Cone",
-          "color": "#FAFFF5",
-          "icon": "Walk"
-        },
-        {
-          "label": "Orange Cone",
-          "color": "#FF6D67",
-          "icon": "Car"
-        }
-      ]
-    },
+      "name": "FS2", "objects": [
+      {"label": "VOID", "color": "#CFCFCF"},
+      {"label": "Yellow Cone", "color": "#F0FF00", "icon": "Triangle"},
+      {"label": "Blue Cone", "color": "#2A00FF", "icon": "Triangle"},
+      {"label": "Orange Cone", "color": "#FF7800", "icon": "Triangle"}
+    ]
+    },	
     {
-      "name": "33 Classes", "objects": [
+      "name": "3 Classes", "objects": [
       {"label": "VOID", "color": "#CFCFCF"},
       {"label": "Yellow Cone"},
       {"label": "Blue Cone"},

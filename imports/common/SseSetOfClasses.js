@@ -46,10 +46,16 @@ export default class SseSetOfClasses {
     }
 
     colorForIndexAsHex(idx) {
+        // if (!this._config.objects[idx]) {
+        //   idx = 0;
+        // }
         return this._config.objects[idx].color;
     }
 
     colorForIndexAsRGBArray(idx) {
+        // if (!this._config.objects[idx]) {
+        //   idx = 0;
+        // }
         return SseGlobals.hex2rgb(this._config.objects[idx].color);
     }
 

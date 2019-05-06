@@ -111,6 +111,7 @@ export default class SsePCDLoader {
                 var position = [];
                 var color = [];
                 var label = [];
+                var reflectance = [];
                 var payload = [];
 
                 if (PCDheader.data === 'ascii') {
@@ -156,12 +157,13 @@ export default class SsePCDLoader {
                         item.classIndex = classIndex;
                         label.push(classIndex);
 
-                        const reflectance = parseInt(line[offset.intensity]) || 0;
+                        const intensity = parseInt(line[offset.intensity]) || 0;
+                        reflectance.push(intensity);
 
                         // Initialize colors
-                        color.push(reflectance);
-                        color.push(reflectance);
-                        color.push(reflectance);
+                        color.push(0);
+                        color.push(0);
+                        color.push(0);
 
                     }
                 }
@@ -191,7 +193,7 @@ export default class SsePCDLoader {
                 name = name[1].split('').reverse().join('');
                 mesh.name = url;
 
-                return {position, label, header: PCDheader};
+                return {position, label, reflectance, header: PCDheader};
 
             }
 
