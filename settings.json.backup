@@ -1,7 +1,7 @@
 {
   "configuration": {
-    "images-folder": "",
-    "internal-folder": "/home/tufast/j.haug/semantic-segmentation-editor/.data"
+    "images-folder": "/hdd/datasets/pointclouds",
+    "internal-folder": "/home/jan/tufast/labelling_tools/.data"
   },
   "sets-of-classes": [
     {

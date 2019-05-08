@@ -1,2 +1,4 @@
 .meteor
+.data
 node_modules
+settings.json
