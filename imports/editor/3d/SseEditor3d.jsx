@@ -514,6 +514,7 @@ export default class SseEditor3d extends React.Component {
 
         this.onMsg("downloadFile", () => this.downloadFile());
         this.onMsg("downloadText", () => this.downloadText());
+        this.onMsg("savePcd", () => this.savePcd());
         this.onMsg("color-boost", (arg => {
             this.colorBoost = arg.value;
             this.invalidateColor();
@@ -530,6 +531,12 @@ export default class SseEditor3d extends React.Component {
 
     downloadText() {
         window.open("/api/pcdtext" + this.props.imageUrl, "_blank");
+    }
+    savePcd() {
+        const url = "/api/pcdsave" + this.props.imageUrl;
+        const oReq = new XMLHttpRequest();
+        oReq.open("GET", url, true);
+        oReq.send();
     }
 
     init() {
@@ -1968,6 +1975,7 @@ export default class SseEditor3d extends React.Component {
 
     saveBinaryLabels() {
         this.dataManager.saveBinaryFile(this.props.imageUrl + ".labels", this.cloudData.map(x => x.classIndex));
+        // this.dataManager.saveFile(this.props.imageUrl + ".labelled", this.cloudData);
     }
 
     saveBinaryObjects() {

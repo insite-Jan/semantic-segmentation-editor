@@ -124,8 +124,8 @@ export default class SsePCDLoader {
                         meta.viewpoint.qy, meta.viewpoint.qz, meta.viewpoint.qw);
 
                     var offset = PCDheader.offset;
-                    console.log("offset")
-                    console.log(offset)
+                    // console.log("offset")
+                    // console.log(offset)
 
                     var pcdData = textData.substr(PCDheader.headerLen);
                     var lines = pcdData.split('\n');

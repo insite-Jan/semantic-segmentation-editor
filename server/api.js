@@ -1,13 +1,17 @@
 import SseDataWorkerServer from "./SseDataWorkerServer";
 import configurationFile from "./config";
-import {basename} from "path";
-import {readFile} from "fs";
+import {createWriteStream, lstatSync, readdirSync, readFile, readFileSync} from "fs";
+import {basename, extname, join} from "path";
+import shell from "shelljs";
+import serveStatic from "serve-static";
+import bodyParser from "body-parser";
 import * as THREE from 'three';
 import SsePCDLoader from "../imports/editor/3d/SsePCDLoader";
 
 WebApp.connectHandlers.use("/api/json", generateJson);
-WebApp.connectHandlers.use("/api/pcdtext", generatePCDOutput.bind({fileMode: false}));
-WebApp.connectHandlers.use("/api/pcdfile", generatePCDOutput.bind({fileMode: true}));
+WebApp.connectHandlers.use("/api/pcdtext", generatePCDOutput.bind({fileMode: false, saveOnline: false}));
+WebApp.connectHandlers.use("/api/pcdfile", generatePCDOutput.bind({fileMode: true, saveOnline: false}));
+WebApp.connectHandlers.use("/api/pcdsave", generatePCDOutput.bind({fileMode: false, saveOnline: true}));
 WebApp.connectHandlers.use("/api/listing", imagesListing);
 
 const {imagesFolder, pointcloudsFolder, setsOfClassesMap} = configurationFile;
@@ -52,6 +56,16 @@ function generatePCDOutput(req, res, next) {
         res.setHeader('Content-type', 'text/plain');
         res.charset = 'UTF-8';
     }
+    if (this.saveOnline) {
+      const fileToSave = pointcloudsFolder + "/labelled" + decodeURIComponent(req.url).replace("/api/pcdsave", "");
+      const dir = fileToSave.match("(.*\/).*")[1];
+      shell.mkdir('-p', dir);
+
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      var wstream = createWriteStream(fileToSave);
+    }
 
     readFile(pcdFile, (err, content) => {
         if (err) {
@@ -79,7 +93,11 @@ function generatePCDOutput(req, res, next) {
         out += " " + head.viewpoint.qy;
         out += " " + head.viewpoint.qz + "\n";
         out += "DATA ascii\n";
-        res.write(out);
+        if (this.saveOnline) {
+          wstream.write(out)
+        } else {
+          res.write(out);
+        }
         out = "";
         readFile(labelFile, (labelErr, labelContent) => {
             if (labelErr) {
@@ -123,12 +141,19 @@ function generatePCDOutput(req, res, next) {
                             // add class label
                             out += labels[position];
                             out += "\n";
-                            res.write(out);
+                            if (this.saveOnline) {
+                              wstream.write(out)
+                            } else {
+                              res.write(out);
+                            }
                             out = "";
                             break;
                     }
                 });
 
+                if (this.saveOnline) {
+                  wstream.end();
+                }
                 res.end()
             })
         });
