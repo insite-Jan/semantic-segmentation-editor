@@ -4,7 +4,7 @@ import SseToolbar from "../../common/SseToolbar";
 import SseBranding from "../../common/SseBranding";
 import {
     CircleOutline, FileDownloadOutline, Gesture, Minus, Plus, PlusMinus, Redo, SquareOutline,
-    Undo
+    Undo, ContentSave
 } from 'mdi-material-ui';
 
 export default class SseToolbar3d extends SseToolbar {
@@ -40,6 +40,7 @@ export default class SseToolbar3d extends SseToolbar {
         this.addCommand("redoCommand", "Redo", false, "Ctrl+Y", "redo", Redo, "disabled");
         this.addCommand("downloadTextCommand", "PCD Output as Text", false, "", "downloadText", FileDownloadOutline);
         this.addCommand("downloadFileCommand", "PCD Output as File", false, "", "downloadFile", FileDownloadOutline);
+        this.addCommand("savePcdCommand", "Save PCD", false, "", "savePcd", ContentSave);
         this.sendMsg("selector");
         this.sendMsg("selection-mode-add");
     }
@@ -83,6 +84,7 @@ export default class SseToolbar3d extends SseToolbar {
                     <div className="hflex">
                         {this.renderCommand("downloadTextCommand")}
                         {this.renderCommand("downloadFileCommand")}
+                        {this.renderCommand("savePcdCommand")}
                     </div>
                 </div>
             </div>

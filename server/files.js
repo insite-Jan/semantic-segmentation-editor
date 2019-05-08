@@ -29,4 +29,7 @@ const {imagesFolder, pointcloudsFolder} = configurationFile;
         res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.end("Sent: " + fileToSave);
     });
+    // WebApp.connectHandlers.use('/save-segmented', function (req, res) {
+    //   const fileToSave = pointcloudsFolder + decodeURIComponent(req.url).replace("/save", "");
+    // })
 });

@@ -116,6 +116,13 @@ export default class SseDataManager {
         });
         worker.postMessage({operation: "compress", data});
     }
+    saveFile(fileName, data) {
+        const url = "/save" + fileName;
+        const oReq = new XMLHttpRequest();
+        oReq.open("POST", url, true);
+        oReq.setRequestHeader("Content-Type", "application/octet-stream");
+        oReq.send(JSON.stringify(data));
+    }
 
     loadBinaryFile(fileName) {
         const worker = new Worker("/SseDataWorker.js");
