@@ -580,6 +580,9 @@ export default class SseEditor3d extends React.Component {
             this.resizeCanvas();
         }, false);
 
+        window.addEventListener('onbeforeunload', () => this.savePcd());
+        window.addEventListener('popstate', () => this.savePcd());
+
         $("body").on('contextmenu', () => {
             return false;
         });
