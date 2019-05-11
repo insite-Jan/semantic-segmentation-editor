@@ -20,7 +20,7 @@ class SseNavigatorApp extends React.Component {
     constructor() {
         super();
         SseMsg.register(this);
-        this.increment = 30;
+        this.increment = 50;
         this.state = {pageLength: this.increment, selection: new Set()};
     }
 
