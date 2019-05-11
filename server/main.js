@@ -133,6 +133,8 @@ Meteor.methods({
     },
 
     'saveData'(sample) {
+        // console.log("save Data")
+        // console.log(sample);
         const attrs = url.parse(sample.url);
         let path = decodeURIComponent(attrs.pathname);
         sample.folder = path.substring(1, path.lastIndexOf("/"));

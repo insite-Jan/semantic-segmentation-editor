@@ -1992,6 +1992,7 @@ export default class SseEditor3d extends React.Component {
     }
 
     saveMeta() {
+        this.meta.labelled = (this.cloudData.find((x) => { return x.classIndex > 0; }) != null)
         Meteor.call("saveData", this.meta);
     }
 
