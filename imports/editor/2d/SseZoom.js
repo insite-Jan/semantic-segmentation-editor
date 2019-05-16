@@ -8,7 +8,7 @@ export default class SseZoom {
         $(Paper.project.view.element).on("wheel", (event) => {
             event = event.originalEvent;
             const mousePosition = new Paper.Point(event.offsetX, event.offsetY);
-            this.zoom(event.deltaY, mousePosition);
+            this.zoom(-event.deltaY, mousePosition);
         });
     }
 
@@ -42,4 +42,3 @@ export default class SseZoom {
         }
     }
 }
-
