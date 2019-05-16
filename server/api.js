@@ -9,6 +9,7 @@ import * as THREE from 'three';
 import SsePCDLoader from "../imports/editor/3d/SsePCDLoader";
 
 WebApp.connectHandlers.use("/api/json", generateJson);
+WebApp.connectHandlers.use("/api/jsonsave", saveJson);
 WebApp.connectHandlers.use("/api/pcdtext", generatePCDOutput.bind({fileMode: false, saveOnline: false}));
 WebApp.connectHandlers.use("/api/pcdfile", generatePCDOutput.bind({fileMode: true, saveOnline: false}));
 WebApp.connectHandlers.use("/api/pcdsave", generatePCDOutput.bind({fileMode: false, saveOnline: true}));
@@ -43,6 +44,32 @@ function generateJson(req, res, next) {
     }else{
         res.end("{}");
     }
+}
+
+function saveJson(req, res, next) {
+  const labelFile = imagesFolder + decodeURIComponent(req.url) + ".labels";
+  const filename = basename(labelFile)
+  console.log(labelFile);
+
+  res.setHeader('Content-Type', 'application/octet-stream');
+  const item = SseSamples.findOne({url: req.url});
+
+  if (item) {
+      const soc = setsOfClassesMap.get(item.socName);
+      item.objects.forEach(obj => {
+          obj.label = soc.objects[obj.classIndex].label;
+      });
+      const data = JSON.stringify(item, null, 1);
+
+      // const dir = labelFile.match("(.*\/).*")[1];
+      // shell.mkdir('-p', dir);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      var wstream = createWriteStream(labelFile);
+      wstream.write(data);
+      wstream.end();
+      res.end();
+  }
 }
 
 function generatePCDOutput(req, res, next) {

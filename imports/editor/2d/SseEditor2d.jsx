@@ -919,7 +919,10 @@ export default class SseEditor2d extends React.Component {
         this.onMsg("tagsChanged", () => this.saveData(true));
 
         this.onMsg("openJsonView", () => {
-            window.open(document.URL.replace("edit", "api/json"));
+            const url = document.URL.replace("edit", "api/jsonsave");
+            const oReq = new XMLHttpRequest();
+            oReq.open("GET", url, true);
+            oReq.send();
         });
 
         this.onMsg("selectAll", (args) => {
@@ -1005,6 +1008,8 @@ export default class SseEditor2d extends React.Component {
         });
 
 
+        // window.addEventListener('onbeforeunload', () => this.saveJson());
+        // window.addEventListener('popstate', () => this.saveJson());
     }
 
     /**
@@ -1058,6 +1063,11 @@ export default class SseEditor2d extends React.Component {
         this.rectangleTool = new SseRectangleTool(this);
         this.floodTool = new SseFloodTool(this);
         $(window).on('resize', this.resizeCanvas.bind(this));
+        $(window).on('beforeunload', this.saveJson.bind(this));
+        $(window).on('popstate', () => {
+          this.saveJson();
+          console.log("popstate");
+        });
 
         const record = SseSamples.findOne({url: this.props.imageUrl});
         // Initialize the data model object with an existing one from the server or
@@ -1286,6 +1296,12 @@ export default class SseEditor2d extends React.Component {
                 $("#waiting").addClass("display-none");
             });
         }, 500);
+    }
+    saveJson() {
+        const url = document.URL.replace("edit", "api/jsonsave");
+        const oReq = new XMLHttpRequest();
+        oReq.open("GET", url, true);
+        oReq.send();
     }
 
 
