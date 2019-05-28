@@ -1063,9 +1063,18 @@ export default class SseEditor2d extends React.Component {
         this.rectangleTool = new SseRectangleTool(this);
         this.floodTool = new SseFloodTool(this);
         $(window).on('resize', this.resizeCanvas.bind(this));
-        const that = this;
-        $(window).on('beforeunload', () => this.sendMsg.bind(this)("openJsonView"));
-        $(window).on('popstate', () => this.sendMsg.bind(this)("openJsonView"));
+        $(window).on('beforeunload', () => {
+          const url = document.URL.replace("edit", "api/jsonsave");
+          const oReq = new XMLHttpRequest();
+          oReq.open("GET", url, true);
+          oReq.send();
+        });
+        $(window).on('popstate', () => {
+          const url = document.URL.replace("edit", "api/jsonsave");
+          const oReq = new XMLHttpRequest();
+          oReq.open("GET", url, true);
+          oReq.send();
+        });
 
         const record = SseSamples.findOne({url: this.props.imageUrl});
         // Initialize the data model object with an existing one from the server or
