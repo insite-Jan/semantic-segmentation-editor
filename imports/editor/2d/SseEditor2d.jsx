@@ -1063,9 +1063,9 @@ export default class SseEditor2d extends React.Component {
         this.rectangleTool = new SseRectangleTool(this);
         this.floodTool = new SseFloodTool(this);
         $(window).on('resize', this.resizeCanvas.bind(this));
-        $(window).on('beforeunload', this.saveJson.bind(this));
+        $(window).on('beforeunload', () => this.sendMsg("openJsonView"));
         $(window).on('popstate', () => {
-          this.saveJson();
+          this.sendMsg("openJsonView");
           console.log("popstate");
         });
 
