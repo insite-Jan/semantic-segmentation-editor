@@ -436,6 +436,7 @@ export default class SseEditor2d extends React.Component {
         if (!ignoreUndo) {
             this.undoRedo.pushState(this.currentSample);
         }
+        this.sendMsg("openJsonView");
     }
 
     /**
@@ -1063,19 +1064,25 @@ export default class SseEditor2d extends React.Component {
         this.rectangleTool = new SseRectangleTool(this);
         this.floodTool = new SseFloodTool(this);
         $(window).on('resize', this.resizeCanvas.bind(this));
-        $(window).on('beforeunload', () => {
-          const url = document.URL.replace("edit", "api/jsonsave");
-          const oReq = new XMLHttpRequest();
-          oReq.open("GET", url, true);
-          oReq.send();
-        });
-        $(window).on('popstate', () => {
-          const url = document.URL.replace("edit", "api/jsonsave");
-          const oReq = new XMLHttpRequest();
-          oReq.open("GET", url, true);
-          oReq.send();
-        });
+        // const saveJson = (that) => { return () => that.sendMsg("openJsonView") };
+        // window.onbeforeunload = () => this.sendMsg.bind(this)("openJsonView");
+        // window.onpopstate = () => this.sendMsg.bind(this)("openJsonView");
+        // $(window).on('popstate', () => this.saveJson.bind(this));
+        // $(window).on('beforeunload', () => this.saveJson.bind(this));
+        // $(window).on('popstate', () => {
+        //   console.log('popstate');
+        //   const url = document.URL.replace("edit", "api/jsonsave");
+        //   const oReq = new XMLHttpRequest();
+        //   oReq.open("GET", url, true);
+        //   oReq.send();
+        // });
 
+                // this.onMsg("openJsonView", () => {
+                //     const url = document.URL.replace("edit", "api/jsonsave");
+                //     const oReq = new XMLHttpRequest();
+                //     oReq.open("GET", url, true);
+                //     oReq.send();
+                // });
         const record = SseSamples.findOne({url: this.props.imageUrl});
         // Initialize the data model object with an existing one from the server or
         // with an empty one
@@ -1305,10 +1312,11 @@ export default class SseEditor2d extends React.Component {
         }, 500);
     }
     saveJson() {
-        const url = document.URL.replace("edit", "api/jsonsave");
-        const oReq = new XMLHttpRequest();
-        oReq.open("GET", url, true);
-        oReq.send();
+        // const url = document.URL.replace("edit", "api/jsonsave");
+        // const oReq = new XMLHttpRequest();
+        // oReq.open("GET", url, true);
+        // oReq.send();
+        this.sendMsg("openJsonView");
     }
 
 
